@@ -25,18 +25,16 @@ class MarkovMachine {
 	 * */
 
 	getChains() {
-		const textChain = new Map();
+		const textChain = new Map(); // TODO: Rename to textChains for clarity
 
 		for (let i = 0; i < this.words.length; i++) {
-			let nextWord = this.words[i + 1];
-			if (!nextWord) {
-				nextWord = null;
-			}
+			let nextWord = this.words[i + 1] || null;
 
 			if (textChain.has(this.words[i])) {
-				let currWords = textChain.get(this.words[i]);
-				currWords.push(nextWord);
-				textChain.set(this.words[i], currWords);
+				// let currWords = textChain.get(this.words[i]);
+				// currWords.push(nextWord);
+				// textChain.set(this.words[i], currWords);
+        textChain.get(this.words[i]).push(nextWord);
 			} else {
 				textChain.set(this.words[i], [nextWord]);
 			}
@@ -50,7 +48,7 @@ class MarkovMachine {
 	 *  until it hits a null choice. */
 
 	getText() {
-		const outputText = [];
+		const outputText = []; // TODO: Rename to words so people don't think it's a string.
 		let currentWord = this.words[0];
 
 		while (currentWord !== null) {
@@ -59,7 +57,7 @@ class MarkovMachine {
 			let currentWordChain = this.chains.get(currentWord);
 			let randomNumber = Math.floor(Math.random() * currentWordChain.length);
 
-			currentWord = this.chains.get(currentWord)[randomNumber];
+			currentWord = currentWordChain[randomNumber];
 		}
 
 		return outputText.join(' ');
