@@ -42,7 +42,7 @@ class MarkovMachine {
 			}
 		}
 
-		console.log(textChain);
+		// console.log(textChain);
 		return textChain;
 	}
 
@@ -50,15 +50,24 @@ class MarkovMachine {
 	 *  until it hits a null choice. */
 
 	getText() {
-		// TODO: implement this!
-		// - start at the first word in the input text
-		// - find a random word from the following-words of that
-		// - repeat until reaching the terminal null
+		const outputText = [];
+		let currentWord = this.words[0];
+
+		while (currentWord !== null) {
+			outputText.push(currentWord);
+
+			let currentWordChain = this.chains.get(currentWord);
+			let randomNumber = Math.floor(Math.random() * currentWordChain.length);
+
+			currentWord = this.chains.get(currentWord)[randomNumber];
+		}
+
+		return outputText.join(' ');
 	}
 }
 
 // const catInHatMachine = new MarkovMachine(
-//   `I am Daniel
+// 	`I am Daniel
 
 //   I am Sam
 //   Sam I am
@@ -88,6 +97,8 @@ class MarkovMachine {
 //   I do not like them,
 //   Sam-I-am`
 // );
+
+// console.log(catInHatMachine.getText());
 
 module.exports = {
 	MarkovMachine,
